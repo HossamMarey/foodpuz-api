@@ -166,6 +166,7 @@ export const getProfile = async (
 ): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({
+      // @ts-ignore
       where: { id: req.user.id },
       include: {
         ownedOrganizations: true,
@@ -240,6 +241,7 @@ export const checkEmailVerification = async (
 ): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({
+       // @ts-ignore
       where: { id: req.user.id },
     });
 
@@ -357,6 +359,7 @@ export const resetPassword = async (
     // Hash password and update user
     const hashedPassword = await hashPassword(password);
     await prisma.user.update({
+       // @ts-ignore
       where: { id: req.user.id },
       data: { password: hashedPassword },
     });
@@ -379,6 +382,7 @@ export const updateProfile = async (
 
     // Update user profile
     await prisma.user.update({
+       // @ts-ignore
       where: { id: req.user.id },
       data: {
         firstName,
@@ -410,6 +414,7 @@ export const updateEmail = async (
 
     // Update user email
     await prisma.user.update({
+       // @ts-ignore
       where: { id: req.user.id },
       data: { email },
     });

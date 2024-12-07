@@ -8,7 +8,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3000/api",
+			"value": "http://localhost:3030/api",
 			"type": "string"
 		}
 	],
@@ -65,7 +65,7 @@
 									"value": "application/json"
 								}
 							],
-							"body": "{\n    \"message\": \"Registration successful. Please check your email for verification link\",\n    \"user\": {\n        \"id\": \"user-uuid\",\n        \"email\": \"user@example.com\",\n        \"emailConfirmed\": false\n    }\n}"
+							"body": "{\n    \"message\": \"Registration successful. Please check your email for verification link\",\n    \"user\": {\n        \"id\": \"user-uuid\",\n        \"email\": \"user@example.com\"\n    },\n    \"token\": \"jwt-token\"\n}"
 						}
 					]
 				},
@@ -119,6 +119,149 @@
 								}
 							],
 							"body": "{\n    \"message\": \"Login successful\",\n    \"session\": {\n        \"token\": \"your-access-token\",\n        \"user\": {\n            \"id\": \"user-uuid\",\n            \"email\": \"user@example.com\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/verify-email?access_token={{verification_token}}",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "verify-email"],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{verification_token}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/verify-email?access_token={{verification_token}}",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "verify-email"],
+									"query": [
+										{
+											"key": "access_token",
+											"value": "{{verification_token}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Email verification successful\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Resend Verification Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/resend-verification",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "resend-verification"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/resend-verification",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "resend-verification"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Verification email has been sent\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check Email Verification Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/check-email-verification",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "check-email-verification"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/auth/check-email-verification",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "check-email-verification"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"emailConfirmed\": true,\n    \"email\": \"user@example.com\"\n}"
 						}
 					]
 				},
