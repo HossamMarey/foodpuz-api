@@ -1,10 +1,11 @@
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = 'noreply@app.foodpuz.com';
+const FROM_EMAIL = 'noreplay@mails.foodpuz.com';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://app.foodpuz.com';
 
 export const sendVerificationEmail = async (email: string, token: string): Promise<void> => {
-  const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+  const verificationLink = `${FRONTEND_URL}/verify-email?token=${token}`;
   
   await resend.emails.send({
     from: FROM_EMAIL,
@@ -20,7 +21,7 @@ export const sendVerificationEmail = async (email: string, token: string): Promi
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string): Promise<void> => {
-  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  const resetLink = `${FRONTEND_URL}/reset-password?token=${token}`;
   
   await resend.emails.send({
     from: FROM_EMAIL,
