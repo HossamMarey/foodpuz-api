@@ -123,6 +123,226 @@
 					]
 				},
 				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "forgot-password"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/forgot-password",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "forgot-password"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Password reset instructions have been sent to your email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "reset-password"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/reset-password",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "reset-password"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Password has been reset successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phoneNumber\": \"+1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phoneNumber\": \"+1234567890\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/profile",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "profile"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Profile updated successfully\",\n    \"profile\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"phoneNumber\": \"+1234567890\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Email",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"newemail@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/email",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "email"]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"newemail@example.com\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/email",
+									"host": ["{{base_url}}"],
+									"path": ["auth", "email"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Email update request sent. Please check your new email for verification.\"\n}"
+						}
+					]
+				},
+				{
 					"name": "Verify Email Status",
 					"request": {
 						"method": "GET",
@@ -216,7 +436,7 @@
 									"value": "application/json"
 								}
 							],
-							"body": "{\n    \"message\": \"Verification email has been resent. Please check your inbox\"\n}"
+							"body": "{\n    \"message\": \"Verification email has been resent\"\n}"
 						}
 					]
 				},
@@ -381,6 +601,10 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
 							}
 						],
 						"url": {
@@ -388,7 +612,31 @@
 							"host": ["{{base_url}}"],
 							"path": ["organizations"]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/organizations",
+									"host": ["{{base_url}}"],
+									"path": ["organizations"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Organizations fetched successfully\",\n    \"organizations\": [\n        {\n            \"id\": \"uuid\",\n            \"name\": \"Organization Name\",\n            \"description\": \"Organization Description\",\n            \"website\": \"https://example.com\",\n            \"logo\": \"logo_url\",\n            \"address\": \"Organization Address\",\n            \"phone\": \"+1234567890\",\n            \"created_at\": \"2024-12-07T18:20:17.000Z\",\n            \"updated_at\": \"2024-12-07T18:20:17.000Z\",\n            \"created_by\": \"user_uuid\",\n            \"updated_by\": \"user_uuid\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Organization by ID",
@@ -398,6 +646,10 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
 							}
 						],
 						"url": {
@@ -407,11 +659,35 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "organization_uuid"
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/organizations/:id",
+									"host": ["{{base_url}}"],
+									"path": ["organizations", ":id"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Organization fetched successfully\",\n    \"organization\": {\n        \"id\": \"uuid\",\n        \"name\": \"Organization Name\",\n        \"description\": \"Organization Description\",\n        \"website\": \"https://example.com\",\n        \"logo\": \"logo_url\",\n        \"address\": \"Organization Address\",\n        \"phone\": \"+1234567890\",\n        \"created_at\": \"2024-12-07T18:20:17.000Z\",\n        \"updated_at\": \"2024-12-07T18:20:17.000Z\",\n        \"created_by\": \"user_uuid\",\n        \"updated_by\": \"user_uuid\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Create Organization",
@@ -419,24 +695,56 @@
 						"method": "POST",
 						"header": [
 							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}"
 							},
 							{
-								"key": "Content-Type",
-								"value": "application/json"
+								"key": "Accept-Language",
+								"value": "en"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Organization Name\"\n}"
+							"raw": "{\n    \"name\": \"Organization Name\",\n    \"description\": \"Organization Description\",\n    \"website\": \"https://example.com\",\n    \"logo\": \"logo_url\",\n    \"address\": \"Organization Address\",\n    \"phone\": \"+1234567890\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/organizations",
 							"host": ["{{base_url}}"],
 							"path": ["organizations"]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Organization Name\",\n    \"description\": \"Organization Description\",\n    \"website\": \"https://example.com\",\n    \"logo\": \"logo_url\",\n    \"address\": \"Organization Address\",\n    \"phone\": \"+1234567890\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/organizations",
+									"host": ["{{base_url}}"],
+									"path": ["organizations"]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Organization created successfully\",\n    \"organization\": {\n        \"id\": \"uuid\",\n        \"name\": \"Organization Name\",\n        \"description\": \"Organization Description\",\n        \"website\": \"https://example.com\",\n        \"logo\": \"logo_url\",\n        \"address\": \"Organization Address\",\n        \"phone\": \"+1234567890\",\n        \"created_at\": \"2024-12-07T18:20:17.000Z\",\n        \"updated_at\": \"2024-12-07T18:20:17.000Z\",\n        \"created_by\": \"user_uuid\",\n        \"updated_by\": \"user_uuid\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Update Organization",
@@ -444,17 +752,21 @@
 						"method": "PUT",
 						"header": [
 							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}"
 							},
 							{
-								"key": "Content-Type",
-								"value": "application/json"
+								"key": "Accept-Language",
+								"value": "en"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Updated Organization Name\"\n}"
+							"raw": "{\n    \"name\": \"Updated Organization Name\",\n    \"description\": \"Updated Organization Description\",\n    \"website\": \"https://example.com\",\n    \"logo\": \"updated_logo_url\",\n    \"address\": \"Updated Organization Address\",\n    \"phone\": \"+1234567890\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/organizations/:id",
@@ -463,11 +775,39 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "organization_uuid"
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Updated Organization Name\",\n    \"description\": \"Updated Organization Description\",\n    \"website\": \"https://example.com\",\n    \"logo\": \"updated_logo_url\",\n    \"address\": \"Updated Organization Address\",\n    \"phone\": \"+1234567890\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/organizations/:id",
+									"host": ["{{base_url}}"],
+									"path": ["organizations", ":id"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Organization updated successfully\",\n    \"organization\": {\n        \"id\": \"uuid\",\n        \"name\": \"Updated Organization Name\",\n        \"description\": \"Updated Organization Description\",\n        \"website\": \"https://example.com\",\n        \"logo\": \"updated_logo_url\",\n        \"address\": \"Updated Organization Address\",\n        \"phone\": \"+1234567890\",\n        \"created_at\": \"2024-12-07T18:20:17.000Z\",\n        \"updated_at\": \"2024-12-07T18:20:17.000Z\",\n        \"created_by\": \"user_uuid\",\n        \"updated_by\": \"user_uuid\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete Organization",
@@ -477,6 +817,10 @@
 							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en"
 							}
 						],
 						"url": {
@@ -486,11 +830,35 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "organization_uuid"
 								}
 							]
 						}
-					}
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/organizations/:id",
+									"host": ["{{base_url}}"],
+									"path": ["organizations", ":id"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"body": "{\n    \"message\": \"Organization deleted successfully\"\n}"
+						}
+					]
 				}
 			]
 		},

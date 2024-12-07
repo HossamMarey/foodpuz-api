@@ -7,6 +7,7 @@ export interface AuthenticatedRequest extends Request {
     id: string;
     email: string;
     role?: UserRole;
+    token?: string;
   };
 }
 
@@ -33,7 +34,8 @@ export const authenticate = async (
     req.user = {
       id: user.id,
       email: user.email!,
-      role: user.role as UserRole
+      role: user.role as UserRole,
+      token
     };
 
     next();
