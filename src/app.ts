@@ -28,14 +28,20 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Setup routes
-setupRoutes(app);
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'FoodPuz API is running' });
+});
+
+// API routes
+app.use('/api', setupRoutes());
 
 // Error handling
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
+
+export default app;
