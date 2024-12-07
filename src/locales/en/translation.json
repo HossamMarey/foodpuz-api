@@ -1,0 +1,45 @@
+{
+  "campaign": {
+    "created": "Campaign created successfully",
+    "updated": "Campaign updated successfully",
+    "deleted": "Campaign deleted successfully",
+    "notFound": "Campaign not found",
+    "invalidData": "Invalid campaign data"
+  },
+  "common": {
+    "unauthorized": "Unauthorized access",
+    "serverError": "Internal server error",
+    "invalidRequest": "Invalid request"
+  },
+  "auth": {
+    "registration": {
+      "success": "Registration successful",
+      "successWithVerification": "Registration successful. Please check your email for verification link",
+      "error": "Internal server error during registration"
+    },
+    "login": {
+      "success": "Login successful",
+      "error": "Internal server error during login"
+    },
+    "email": {
+      "verificationSent": "Verification email has been resent. Please check your inbox",
+      "verificationError": "Internal server error while resending verification email",
+      "verificationSuccess": "Email verified successfully",
+      "verificationCheckError": "Internal server error while checking email verification",
+      "invalidToken": "Invalid or missing access token",
+      "verificationFailed": "Internal server error during email verification"
+    },
+    "token": {
+      "refreshError": "Internal server error during token refresh"
+    },
+    "logout": {
+      "success": "Logout successful",
+      "error": "Internal server error during logout"
+    },
+    "google": {
+      "success": "Google authentication successful",
+      "error": "Internal server error during Google authentication"
+    },
+    "notAuthenticated": "User not authenticated"
+  }
+}
