@@ -14,6 +14,14 @@ enum OrganizationRole {
   MEMBER
 }
 
+enum GameTemplateType {
+  FORTUNE_WHEEL
+  PICTURE_PUZZLE
+  MOVING_PUZZLE
+  WATER_TUPES
+  MEMORY_GAME
+}
+
 model Organization {
   id          String   @id @default(uuid()) @db.Uuid
   name        String   @unique
@@ -29,6 +37,7 @@ model Organization {
   // Relations
   owner    User              @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Restrict)
   members  OrganizationUser[]
+  gameTemplates GameTemplate[]
 
   @@map("organizations")
 }
@@ -45,6 +54,21 @@ model OrganizationUser {
 
   @@id([organizationId, userId])
   @@map("organization_users")
+}
+
+model GameTemplate {
+  id              String          @id @default(uuid()) @db.Uuid
+  type            GameTemplateType
+  state           Json
+  collectedData   Json?
+  organizationId  String          @map("organization_id") @db.Uuid
+  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Relations
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("game_templates")
 }
 
 model User {

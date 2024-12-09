@@ -25,7 +25,11 @@ export const authenticate = async (
       return;
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader?.split(" ")?.[1];
+    if (!token) {
+      res.status(401).json({ error: "No token provided" });
+      return;
+    }
     const { id } = verifyToken(token);
     if (!id) {
       res.status(401).json({ error: "Invalid token" });
