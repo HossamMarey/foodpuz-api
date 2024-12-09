@@ -21,19 +21,19 @@ export const organizationController = {
             }
           }
         },
-        include: {
-          members: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  email: true,
+        // include: {
+        //   members: {
+        //     include: {
+        //       user: {
+        //         select: {
+        //           id: true,
+        //           email: true,
                  
-                }
-              }
-            }
-          }
-        }
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
       });
 
       res.status(200).json({
@@ -79,6 +79,8 @@ export const organizationController = {
     const { name, description, website, logo, address, phone } = req.body;
     // @ts-ignore
     const userId = req.user.id;
+
+    console.log( 'SSSSDDD' , {  name, description, website, logo, address, phone, userId} );
 
     try {
       const organization = await prisma.organization.create({

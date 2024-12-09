@@ -5,6 +5,22 @@ import { AppError } from './errorHandler';
 export const validateRequest = (schema: AnyZodObject) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+      const body = req.body;
+
+      Object.entries(body).forEach(([key, value]) => {
+        if (typeof value === 'string') {
+          let v = value.trim();
+          if (v === '') {
+            delete body[key];
+          } else {
+
+            body[key] =  v;
+          }
+
+        }
+      });
+
       await schema.parseAsync({
         body: req.body,
         query: req.query,
@@ -13,6 +29,9 @@ export const validateRequest = (schema: AnyZodObject) => {
       
       next();
     } catch (error) {
+
+
+      console.log( 'VALID_ERROR' , error );
       if (error instanceof ZodError) {
         const errorMessage = error.errors
           .map((err) => err.message)
