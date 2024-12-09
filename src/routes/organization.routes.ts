@@ -2,6 +2,7 @@ import express from 'express';
 import { authenticate } from '../middleware/auth';
 import { validateRequest } from '../middleware/validateRequest';
 import { organizationSchemas } from '../validators/organization.validator';
+import { checkOrganizationMembership } from '../middleware/checkOrganizationMembership';
 import {
   getAllOrganizations,
   getOrganizationById,
@@ -15,12 +16,13 @@ import {
 
 const router = express.Router();
 
-// Get all organizations
+// Get all organizations (only show organizations where user is a member)
 router.get('/', authenticate, getAllOrganizations);
 
 // Get organization by ID
 router.get('/:id', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.getById), 
   getOrganizationById
 );
@@ -35,6 +37,7 @@ router.post('/',
 // Update organization
 router.put('/:id', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.update), 
   updateOrganization
 );
@@ -42,6 +45,7 @@ router.put('/:id',
 // Delete organization
 router.delete('/:id', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.delete), 
   deleteOrganization
 );
@@ -49,16 +53,21 @@ router.delete('/:id',
 // Organization user management routes
 router.post('/:id/users', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.addUser), 
   addUser
 );
+
 router.delete('/:id/users/:userId', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.removeUser), 
   removeUser
 );
+
 router.put('/:id/users/:userId/role', 
   authenticate, 
+  checkOrganizationMembership,
   validateRequest(organizationSchemas.updateUserRole), 
   updateUserRole
 );

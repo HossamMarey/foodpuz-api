@@ -8,8 +8,11 @@ import {
 } from "../utils/auth.utils";
 import { OAuth2Client } from "google-auth-library";
 import { v4 as uuidv4 } from "uuid";
-import { Prisma } from "@prisma/client";
-import { sendVerificationEmail, sendPasswordResetEmail } from "../utils/email.utils";
+import { Prisma, User } from "@prisma/client";
+import {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+} from "../utils/email.utils";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -42,7 +45,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     });
 
     // Generate verification token and send email
-    const verificationToken = generateToken(user.id, '24h');
+    const verificationToken = generateToken(user.id, "24h");
     await sendVerificationEmail(user.email, verificationToken);
 
     // Generate JWT token
@@ -176,28 +179,18 @@ export const getProfile = async (
           },
         },
       },
-    });
+    }) as User | null;
 
     if (!user) {
       res.status(404).json({ error: "User not found" });
       return;
     }
 
+    const userResponse = { ...user , password: undefined };
+    
+
     res.status(200).json({
-      user: {
-        id: user.id,
-        email: user.email,
-        organizations: [
-          ...user.ownedOrganizations.map((org) => ({
-            ...org,
-            role: "OWNER",
-          })),
-          ...user.organizations.map((membership) => ({
-            ...membership.organization,
-            role: membership.role,
-          })),
-        ],
-      },
+      data: userResponse,
     });
   } catch (error) {
     console.error("Get profile error:", error);
@@ -241,7 +234,7 @@ export const checkEmailVerification = async (
 ): Promise<void> => {
   try {
     const user = await prisma.user.findUnique({
-       // @ts-ignore
+      // @ts-ignore
       where: { id: req.user.id },
     });
 
@@ -278,7 +271,7 @@ export const resendVerificationEmail = async (
     }
 
     // Generate verification token and send email
-    const verificationToken = generateToken(user.id, '24h');
+    const verificationToken = generateToken(user.id, "24h");
     await sendVerificationEmail(user.email, verificationToken);
 
     res.status(200).json({
@@ -337,7 +330,7 @@ export const forgotPassword = async (
     }
 
     // Generate reset token and send email
-    const resetToken = generateToken(user.id, '1h');
+    const resetToken = generateToken(user.id, "1h");
     await sendPasswordResetEmail(user.email, resetToken);
 
     res.status(200).json({
@@ -359,7 +352,7 @@ export const resetPassword = async (
     // Hash password and update user
     const hashedPassword = await hashPassword(password);
     await prisma.user.update({
-       // @ts-ignore
+      // @ts-ignore
       where: { id: req.user.id },
       data: { password: hashedPassword },
     });
@@ -382,7 +375,7 @@ export const updateProfile = async (
 
     // Update user profile
     await prisma.user.update({
-       // @ts-ignore
+      // @ts-ignore
       where: { id: req.user.id },
       data: {
         firstName,
@@ -414,7 +407,7 @@ export const updateEmail = async (
 
     // Update user email
     await prisma.user.update({
-       // @ts-ignore
+      // @ts-ignore
       where: { id: req.user.id },
       data: { email },
     });

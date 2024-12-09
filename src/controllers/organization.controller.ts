@@ -5,22 +5,44 @@ import { OrganizationRole } from "@prisma/client";
 export const organizationController = {
   async getAllOrganizations(req: Request, res: Response) {
     try {
+      // @ts-ignore
+      const userId = req.user?.id;
+      
+      if (!userId) {
+         res.status(401).json({ error: 'User not authenticated' });
+         return
+      }
+
       const organizations = await prisma.organization.findMany({
+        where: {
+          members: {
+            some: {
+              userId: userId
+            }
+          }
+        },
         include: {
           members: {
             include: {
-              user: true,
-            },
-          },
-        },
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                 
+                }
+              }
+            }
+          }
+        }
       });
 
-      res.status(200).json(organizations);
-      return;
+      res.status(200).json({
+        data: organizations,
+        message: "Organizations fetched successfully",
+      });
     } catch (error) {
       console.error("Error getting organizations:", error);
       res.status(500).json({ error: "Failed to get organizations" });
-      return;
     }
   },
 
