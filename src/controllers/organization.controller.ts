@@ -56,6 +56,7 @@ export const organizationController = {
           members: {
             include: {
               user: true,
+
             },
           },
         },
@@ -66,7 +67,19 @@ export const organizationController = {
         return;
       }
 
-      res.status(200).json(organization);
+      res.status(200).json({
+        data: {
+          ...organization,
+          members: organization.members.map((member) => ({
+            ...member,
+            user: {
+              ...member.user,
+              password: undefined,
+            },
+          })),
+        },
+        message: "Organization fetched successfully",
+      });
       return;
     } catch (error) {
       console.error("Error getting organization:", error);
@@ -79,8 +92,7 @@ export const organizationController = {
     const { name, description, website, logo, address, phone } = req.body;
     // @ts-ignore
     const userId = req.user.id;
-
-    console.log( 'SSSSDDD' , {  name, description, website, logo, address, phone, userId} );
+ 
 
     try {
       const organization = await prisma.organization.create({

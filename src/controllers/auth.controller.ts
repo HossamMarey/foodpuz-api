@@ -50,6 +50,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     // Generate JWT token
     const token = generateToken(user.id);
+    const refresh_token = generateToken(user.id, "30d");
 
     res.status(201).json({
       message: req.t("auth.registration.success"),
@@ -58,6 +59,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: user.email,
       },
       token,
+      refresh_token,
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -87,12 +89,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Generate JWT token
-    const token = generateToken(user.id);
+    const token = generateToken(user.id , '2h');
+    const refresh_token = generateToken(user.id, "30d");
 
     res.status(200).json({
       message: req.t("auth.login.success"),
       session: {
         token,
+        refresh_token,
         user: {
           id: user.id,
           email: user.email,
@@ -168,7 +172,7 @@ export const getProfile = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = await prisma.user.findUnique({
+    const user = (await prisma.user.findUnique({
       // @ts-ignore
       where: { id: req.user.id },
       include: {
@@ -179,15 +183,14 @@ export const getProfile = async (
           },
         },
       },
-    }) as User | null;
+    })) as User | null;
 
     if (!user) {
       res.status(404).json({ error: "User not found" });
       return;
     }
 
-    const userResponse = { ...user , password: undefined };
-    
+    const userResponse = { ...user, password: undefined };
 
     res.status(200).json({
       data: userResponse,
