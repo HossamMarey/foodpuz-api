@@ -35,8 +35,8 @@ model Organization {
   updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   // Relations
-  owner    User              @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Restrict)
-  members  OrganizationUser[]
+  owner         User               @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  members       OrganizationUser[]
   gameTemplates GameTemplate[]
 
   @@map("organizations")
@@ -46,44 +46,45 @@ model OrganizationUser {
   organizationId String           @map("organization_id") @db.Uuid
   userId         String           @map("user_id") @db.Uuid
   role           OrganizationRole
-  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
 
   // Relations
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([organizationId, userId])
   @@map("organization_users")
 }
 
 model GameTemplate {
-  id              String          @id @default(uuid()) @db.Uuid
-  type            GameTemplateType
-  state           Json
-  collectedData   Json?
-  organizationId  String          @map("organization_id") @db.Uuid
-  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt       DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id             String           @id @default(uuid()) @db.Uuid
+  name           String
+  type           GameTemplateType
+  state          Json?
+  collectedData  Json?
+  organizationId String           @map("organization_id") @db.Uuid
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   // Relations
-  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@map("game_templates")
 }
 
 model User {
-  id            String   @id @db.Uuid
-  email         String   @unique
-  password      String?
-  firstName     String?
-  lastName      String?
-  phoneNumber   String?
-  emailConfirmed Boolean @default(false)
-  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id             String   @id @db.Uuid
+  email          String   @unique
+  password       String?
+  firstName      String?
+  lastName       String?
+  phoneNumber    String?
+  emailConfirmed Boolean  @default(false)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   // Relations
-  ownedOrganizations Organization[] @relation("OrganizationOwner")
+  ownedOrganizations Organization[]     @relation("OrganizationOwner")
   organizations      OrganizationUser[]
 
   @@map("users")

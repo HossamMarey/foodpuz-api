@@ -5,7 +5,7 @@ import { GameTemplateType } from '@prisma/client';
 export const gameTemplateController = {
   async createGameTemplate(req: Request, res: Response) {
     try {
-      const { type, state, organizationId } = req.body;
+      const { type, state, organizationId, name } = req.body;
 
       if (!Object.values(GameTemplateType).includes(type)) {
         res.status(400).json({
@@ -17,6 +17,7 @@ export const gameTemplateController = {
 
       const gameTemplate = await prisma.gameTemplate.create({
         data: {
+          name,
           type,
           state,
           organizationId,
@@ -82,7 +83,7 @@ export const gameTemplateController = {
   async updateGameTemplate(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { type, state, collectedData } = req.body;
+      const { type, state, collectedData, name } = req.body;
 
       if (type && !Object.values(GameTemplateType).includes(type)) {
         res.status(400).json({
@@ -92,13 +93,15 @@ export const gameTemplateController = {
         return;
       }
 
+      const updateData: any = {};
+      if (type !== undefined) updateData.type = type;
+      if (state !== undefined) updateData.state = state;
+      if (collectedData !== undefined) updateData.collectedData = collectedData;
+      if (name !== undefined) updateData.name = name;
+
       const template = await prisma.gameTemplate.update({
         where: { id },
-        data: {
-          type,
-          state,
-          collectedData,
-        },
+        data: updateData,
       });
 
       res.status(200).json({
