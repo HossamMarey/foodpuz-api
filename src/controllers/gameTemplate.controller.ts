@@ -5,16 +5,16 @@ import { createQueryMiddleware, formatPaginatedResponse } from '../middleware/qu
 
 // Define query options for game templates
 export const gameTemplateQueryOptions = {
-  allowedSortFields: ['name', 'type', 'createdAt', 'updatedAt'],
-  defaultSortField: 'createdAt',
-  defaultLimit: 10,
-  maxLimit: 100,
-  searchFields: ['name']
+  allowedSortFields: ['createdAt', 'updatedAt', 'name'],
+  allowedFilterFields: ['type', 'name'],
+  defaultSort: { field: 'createdAt', order: 'desc' },
+  defaultLimit: 10
 };
 
 // Create middleware instance
-export const gameTemplateQueryMiddleware = createQueryMiddleware(gameTemplateQueryOptions);
+const gameTemplateQueryMiddleware = createQueryMiddleware(gameTemplateQueryOptions);
 
+export { gameTemplateQueryMiddleware };
 export const gameTemplateController = {
   async createGameTemplate(req: Request, res: Response) {
     try {

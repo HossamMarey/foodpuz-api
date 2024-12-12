@@ -98,3 +98,42 @@ export const formatPaginatedResponse = (data: any[], total: number, queryParams:
     }
   };
 };
+
+export const gameTemplateQueryMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { 
+      page = 1, 
+      limit = 10, 
+      sortBy = 'createdAt', 
+      sortOrder = 'desc',
+      type
+    } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNum = parseInt(page as string);
+    const limitNum = parseInt(limit as string);
+    const skip = (pageNum - 1) * limitNum;
+
+    // Initialize where clause
+    let whereClause: any = {};
+
+    // Add type filter if provided
+    if (type) {
+      whereClause.type = type;
+    }
+
+    // Attach query parameters to request object
+    (req as any).queryParams = {
+      skip,
+      limit: limitNum,
+      sortBy,
+      sortOrder,
+      whereClause
+    };
+
+    next();
+  } catch (error) {
+    console.error('Error in query middleware:', error);
+    res.status(400).json({ error: 'Invalid query parameters' });
+  }
+};
