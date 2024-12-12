@@ -1,6 +1,19 @@
 import { Request, Response } from 'express';
 import { prisma } from '../prisma';
 import { GameTemplateType } from '@prisma/client';
+import { createQueryMiddleware, formatPaginatedResponse } from '../middleware/queryMiddleware';
+
+// Define query options for game templates
+export const gameTemplateQueryOptions = {
+  allowedSortFields: ['name', 'type', 'createdAt', 'updatedAt'],
+  defaultSortField: 'createdAt',
+  defaultLimit: 10,
+  maxLimit: 100,
+  searchFields: ['name']
+};
+
+// Create middleware instance
+export const gameTemplateQueryMiddleware = createQueryMiddleware(gameTemplateQueryOptions);
 
 export const gameTemplateController = {
   async createGameTemplate(req: Request, res: Response) {
@@ -37,19 +50,32 @@ export const gameTemplateController = {
   async getOrganizationGameTemplates(req: Request, res: Response) {
     try {
       const { organizationId } = req.params;
+      const { whereClause, ...queryParams } = (req as any).queryParams;
 
+      // Add organizationId to where clause
+      const finalWhereClause = {
+        ...whereClause,
+        organizationId
+      };
+
+      // Get total count for pagination
+      const totalCount = await prisma.gameTemplate.count({
+        where: finalWhereClause
+      });
+
+      // Get paginated and filtered results
       const templates = await prisma.gameTemplate.findMany({
-        where: {
-          organizationId,
-        },
+        where: finalWhereClause,
         orderBy: {
-          createdAt: 'desc',
+          [queryParams.sortBy]: queryParams.sortOrder
         },
+        skip: queryParams.skip,
+        take: queryParams.limit
       });
 
       res.status(200).json({
-        data: templates,
-        message: 'Game templates fetched successfully',
+        ...formatPaginatedResponse(templates, totalCount, { ...queryParams, whereClause: finalWhereClause }),
+        message: 'Game templates fetched successfully'
       });
     } catch (error) {
       console.error('Error fetching game templates:', error);
