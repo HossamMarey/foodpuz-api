@@ -15,7 +15,19 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-app.use(cors());
+
+// Configure CORS options to allow requests only from *.foodpuz.com domain
+const corsOptions = {
+  origin: /\.foodpuz\.com$/,  // Only allow subdomains of foodpuz.com
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  maxAge: 86400 // Cache preflight requests for 24 hours
+};
+
+// Apply CORS middleware with configured options
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // i18n middleware
